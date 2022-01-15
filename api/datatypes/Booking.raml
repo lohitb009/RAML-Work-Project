@@ -1,0 +1,20 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  bookingId:
+    type: string
+  bookingStartDate:
+    type: date-only
+  bookingEndDate:
+    type: date-only
+  amenitiesSelected: 
+    type: string[]
+  transportSelected:
+    type: string[]
+  food:
+    type: string
+  room:
+    !include Room.raml
+examples:
+  example1: !include ../examples/BookingExample1.raml
+  example2: !include ../examples/BookingExample2.raml

@@ -1,0 +1,16 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  registrationId: 
+    type: string
+  customerName: 
+    type: string
+  title:
+    type: string
+  address:
+    !include Address.raml
+  paymentType:
+    type: string
+examples:
+  example1: !include ../examples/RegistrationExample1.raml
+  example2: !include ../examples/RegistrationExample2.raml

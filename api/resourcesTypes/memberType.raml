@@ -1,0 +1,55 @@
+#%RAML 1.0 ResourceType
+    
+    get?:
+      description: GET <<resourcePath>>
+
+      # Use imported 'traits'
+      is:
+        - traitsTypesLib.hasAcceptHeader
+        - traitsTypesLib.hasError: {errorCode: 404}
+      
+      responses:
+        200:
+          # Response Headers
+          headers:
+            Content-Type:
+          
+          body:
+            dataTypesLib.<<resourcePathName| !uppercamelcase| !singularize>>
+            
+    delete?:
+      description: DELETE <<resourcePath>>
+
+      # Use imported 'traits'
+      is:
+        - traitsTypesLib.hasAcceptHeader
+        - traitsTypesLib.hasError: {errorCode: 404}
+
+      responses:
+        200:
+          # Response Headers
+          headers:
+            Content-Type:
+          
+          body:
+            dataTypesLib.Status
+          
+    
+    patch?:
+      description: PATCH <<resourcePath>>
+
+      # Use imported 'traits'
+      is:
+        - traitsTypesLib.hasAcceptHeader
+        - traitsTypesLib.hasError: {errorCode: 500}
+
+      # Request body to update registration 
+      body:
+        dataTypesLib.<<resourcePathName | !uppercamelcase| !singularize>>
+      
+      responses:
+        204:
+          # Response Headers
+          headers:
+            Content-Type:
+          body:

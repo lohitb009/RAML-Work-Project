@@ -1,0 +1,134 @@
+#%RAML 1.0
+title: BookMyHotelAPI
+version: v1
+baseUri: https://{domain}/{app-name}/api/
+
+baseUriParameters:
+  domain:
+    description: The host DNS of the API
+    example: in-bookings
+  app-name:
+    description: Used Only in Internal APIs. Name of the API.
+    example: bookmyshow.com
+
+protocols:
+  - HTTP
+  - HTTPS
+
+# Default Media Type
+mediaType: 
+- application/json
+
+# Import Documentation
+documentation:
+  -  !include documentation/BookMyHotelDoc.raml
+
+# Import Libraries:
+uses:
+  dataTypesLib : library/dataTypesLibrary.raml
+  resourceTypesLib : library/resourceTypesLibrary.raml
+  traitsTypesLib : library/traitsTypesLibrary.raml
+
+# Import Security Schemes
+securitySchemes:
+  basicAuth: !include securitySchemes/basicAuth.raml
+  clientIdEnforce: !include securitySchemes/clientIdEnforce.raml
+
+# This will enforce basic auth across the entire resources and http methods
+securedBy:
+  - basicAuth
+
+# Collection Resource: registrations
+/registrations:
+  displayName: Registrations
+  description: All registrations
+
+  # Use 'resourceTypes' imported
+  type: resourceTypesLib.collection
+
+  # HTTP/S- Method
+  get:
+  post:
+  
+  /{registrationId}:
+    displayName: RegistrationId
+    description: Registration on the basis of 'registrationId'
+    
+    # Use 'resource-types' imported
+    type: resourceTypesLib.member
+
+    # HTTP/S Methods
+    get:
+    delete:
+    patch:
+    
+# Collection Resource: hotels
+/hotels:
+  displayName: Hotels
+  description: All Hotels
+
+  # Use 'resourceTypes' imported
+  type: resourceTypesLib.collection
+
+  # HTTP/S Method
+  get:
+
+    # Request Query Parameters for the get method
+    queryParameters:
+      city:
+        required: False
+      state:
+        required: False
+      country:
+        required: False
+
+  post:
+    # Apply client-id only to the 'post' method of /hotels resource
+    securedBy:
+      - clientIdEnforce
+      
+  /{hotelId}:
+    displayName: HotelId
+    description: Hotel on the basis of HotelId
+    
+    # Use 'resourceTypes' imported
+    type: resourceTypesLib.member
+
+    # HTTP/S Method
+    get:
+    delete:
+    patch:
+    
+    /bookings:
+      displayName: Bookings
+      description: Booking details of particular Hotel on the basis of HotelId
+      
+      # Import 'resourceType' 
+      type: resourceTypesLib.member
+
+      # HTTP/S Method
+      get:
+              
+# Collection Resource: bookings
+/bookings:
+  displayName: Bookings
+  description: All Bookings
+
+  # Use 'resourceTypes' imported
+  type: resourceTypesLib.collection
+
+  # HTTP/S- Method
+  get:
+  post:
+  
+  /{bookingId}:
+    displayName: BookingId
+    description: Booking on the basis of BookingId
+
+    # Use 'resourceType'
+    type: resourceTypesLib.member
+
+    # HTTP/S Method
+    get:
+    delete:
+    patch:

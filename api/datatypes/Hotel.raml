@@ -1,0 +1,27 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  hotelId:
+    type: string
+  hotelName:
+    type: string
+  rating:
+    type: string
+  rooms:
+    type: array
+    items: !include Room.raml
+  paymentTypes:
+    type: string[]
+  amenities:
+    type: string[]
+  transport:
+    type: string[]
+  food:
+    type: string[]
+  languagesSpoken:
+    type: string[]
+  address:
+    !include Address.raml
+examples:
+  example1: !include ../examples/HotelExample1.raml
+  example2: !include ../examples/HotelExample2.raml
